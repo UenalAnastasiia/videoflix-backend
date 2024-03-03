@@ -22,9 +22,9 @@ def convert_video_720p(input):
     subprocess.run(cmd, capture_output=True)
     
 
-def convert_video__1080p(input):
+def convert_video_1080p(input):
     """
-    Convert Video from Input in 10800p with ffmpeg and save it to filesystem
+    Convert Video from Input in 1080p with ffmpeg and save it to filesystem
     """
     filename, extension = os.path.splitext(input)
     output = filename + '_1080p' + extension

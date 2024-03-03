@@ -38,18 +38,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'video.apps.VideoConfig'
+    'video.apps.VideoConfig',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 
 ROOT_URLCONF = 'videoflix.urls'
 
@@ -127,3 +135,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+CACHES = {    
+    "default": {        
+        "BACKEND": "django_redis.cache.RedisCache",        
+        "LOCATION": "redis://127.0.0.1:6379/1",        
+        "OPTIONS": {            
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"        
+        },        
+        "KEY_PREFIX": "videoflix"    
+    }
+}
+
+# Cache time to live is 15 minutes.
+CACHE_TTL = 60 * 15
