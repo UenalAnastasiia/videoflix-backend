@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'video.apps.VideoConfig',
+    'django_rq',
     'debug_toolbar'
 ]
 
@@ -57,6 +58,17 @@ MIDDLEWARE = [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': '127.0.0.1',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 360
+    }
+}
 
 
 ROOT_URLCONF = 'videoflix.urls'
@@ -136,12 +148,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 CACHES = {    
     "default": {        
         "BACKEND": "django_redis.cache.RedisCache",        
         "LOCATION": "redis://127.0.0.1:6379/1",        
-        "OPTIONS": {            
+        "OPTIONS": {          
+            "PASSWORD": "foobared",
+            "REDIS_CLIENT_KWARGS": {
+                "ssl_cert_reqs": None
+            },  
             "CLIENT_CLASS": "django_redis.client.DefaultClient"        
         },        
         "KEY_PREFIX": "videoflix"    

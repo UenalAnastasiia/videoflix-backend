@@ -3,7 +3,7 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from video.tasks import convert_video_360p, convert_video_720p, convert_video_1080p
 from .models import Video
-
+import django_rq
 
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
@@ -11,7 +11,9 @@ def video_post_save(sender, instance, created, **kwargs):
     Save file to filesystem
     """
     if created:
-        convert_video_360p(instance.video_file.path)
+        queue = django_rq.get_queue('default', autocommit=True)
+        queue.enqueue(convert_video_360p, instance.video_file.path)
+        #convert_video_360p(instance.video_file.path)
         convert_video_720p(instance.video_file.path)
         convert_video_1080p(instance.video_file.path)
         
