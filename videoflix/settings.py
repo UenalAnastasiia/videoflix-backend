@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_rq',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'video.apps.VideoConfig',
-    'django_rq',
     'debug_toolbar'
 ]
 
@@ -60,9 +60,25 @@ INTERNAL_IPS = [
 ]
 
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+             "REDIS_CLIENT_KWARGS": {
+                "ssl_cert_reqs": None,
+                "ssl": True,
+                },
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            },
+        "KEY_PREFIX": "videoflix"
+        }
+}
+
+
 RQ_QUEUES = {
     'default': {
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
         'PASSWORD': 'foobared',
@@ -148,20 +164,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CACHES = {    
-    "default": {        
-        "BACKEND": "django_redis.cache.RedisCache",        
-        "LOCATION": "redis://127.0.0.1:6379/1",        
-        "OPTIONS": {          
-            "PASSWORD": "foobared",
-            "REDIS_CLIENT_KWARGS": {
-                "ssl_cert_reqs": None
-            },  
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"        
-        },        
-        "KEY_PREFIX": "videoflix"    
-    }
-}
 
 # Cache time to live is 15 minutes.
 CACHE_TTL = 60 * 15
