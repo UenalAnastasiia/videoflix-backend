@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.conf.global_settings import STATIC_ROOT
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,9 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
 INSTALLED_APPS = [
     'django_rq',
     'django.contrib.admin',
@@ -40,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'video.apps.VideoConfig',
-    'debug_toolbar'
+    'debug_toolbar',
+    'import_export'
 ]
 
 MIDDLEWARE = [
@@ -54,11 +54,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
-
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
 
 CACHES = {
     "default": {
@@ -75,7 +73,6 @@ CACHES = {
         }
 }
 
-
 RQ_QUEUES = {
     'default': {
         'HOST': 'localhost',
@@ -85,7 +82,6 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 360
     }
 }
-
 
 ROOT_URLCONF = 'videoflix.urls'
 
@@ -118,7 +114,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -137,7 +132,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -149,21 +143,27 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = '/media/'
 
+BACKUP_ROOT=os.path.join(BASE_DIR, 'backup')
+
+BACKUP_URL='/backup/'
 
 # Cache time to live is 15 minutes.
 CACHE_TTL = 60 * 15

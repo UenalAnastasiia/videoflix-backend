@@ -1,5 +1,8 @@
 import os
 import subprocess
+from .resources import VideoResource
+from datetime import datetime
+from django.conf import settings
 
 
 def convert_video_360p(input):
@@ -30,3 +33,19 @@ def convert_video_1080p(input):
     output = filename + '_1080p' + extension
     cmd = 'ffmpeg ' + '-i ' + input + ' -s hd1080 -c:v libx264 -crf 23 -c:a aac -strict -2 ' + output
     subprocess.run(cmd, capture_output=True)
+    
+
+def create_backup_export():
+    """
+    Create Backup from Video-Content in JSON-Format in directory "backend"
+    """
+    video_resource = VideoResource()
+    dataset = video_resource.export()
+    backup_json = dataset.json
+    
+    created_at = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    path = os.path.join(settings.BACKUP_ROOT, f"backup_{created_at}.json")
+    os.makedirs(settings.BACKUP_ROOT, exist_ok=True)
+    with open(path, 'w') as file:
+        file.write(backup_json)
+    return backup_json
