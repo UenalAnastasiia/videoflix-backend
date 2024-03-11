@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'import_export',
     'user',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
@@ -120,6 +122,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 # Password validation
