@@ -31,6 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django_rq',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,13 +42,16 @@ INSTALLED_APPS = [
     'video.apps.VideoConfig',
     'debug_toolbar',
     'import_export',
-    'user'
+    'user',
 ]
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
 
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
