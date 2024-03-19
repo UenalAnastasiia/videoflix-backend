@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'import_export',
     'user',
+    'category',
     'rest_framework',
     'rest_framework.authtoken',
 ]

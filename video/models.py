@@ -1,5 +1,6 @@
 from datetime import date
 from django.db import models
+from category.models import Category
 from user.models import CustomUser
 
 
@@ -9,6 +10,8 @@ class Video(models.Model):
     title = models.CharField(max_length=80)
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
+    cover_picture = models.FileField(upload_to='covers', blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.title
