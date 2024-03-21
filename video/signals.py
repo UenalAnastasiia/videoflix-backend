@@ -20,7 +20,7 @@ def video_post_save(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
-    Deletes file from filesystem
+    Deletes files from filesystem
     when corresponding `Video` object is deleted.
     """
     if instance.video_file:
@@ -31,3 +31,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
                 converted_video = filename + p + extension
                 if os.path.isfile(converted_video):
                     os.remove(converted_video)
+    
+    if instance.cover_picture:
+        if os.path.isfile(instance.cover_picture.path):
+            os.remove(instance.cover_picture.path)
