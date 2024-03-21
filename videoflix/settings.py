@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'import_export',
     'user',
     'category',
+    'video_list',
     'rest_framework',
     'rest_framework.authtoken',
 ]

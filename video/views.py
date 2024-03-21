@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
+from rest_framework import status
 from rest_framework.views import APIView
 from .serializers import VideoSerializer
 from .models import Video
@@ -35,3 +36,52 @@ class VideoViewSet(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
+
+class VideoDetailsViewSet(APIView):
+    """
+    Video Details Class
+    """
+    def get(self, request, pk):
+        """
+        Get Request for Get Video Object by pk from Videos DB 
+        """
+        try:
+            video = Video.objects.filter(id=pk)
+            serializer = VideoSerializer(video, many=True)
+            return Response(serializer.data)
+        except Video.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+    
+    
+    def get_queryset(self, pk):
+        """
+        Help Queryset for delete and update video objects
+        """
+        try:
+            video = Video.objects.get(id=pk)
+            return video
+        except Video.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+        
+    
+    def delete(self, request, pk, format=None):
+        """
+        Delete Request for Delete Video Object by pk in Videos DB 
+        """
+        video = self.get_queryset(pk)
+        video.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
+    
+    
+    def patch(self, request, pk, format=None):
+        """
+        Patch Request for Update Video Object by pk in Videos DB 
+        """
+        video_object = self.get_queryset(pk)
+
+        serializer = VideoSerializer(video_object, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status.HTTP_400_BAD_REQUEST)
