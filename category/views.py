@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import CategorySerializer
@@ -23,3 +24,19 @@ class CategoryViewSet(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+
+class CategoryDetailsViewSet(APIView):
+    """
+    Category Details Class
+    """
+    def get(self, request, pk):
+        """
+        Get Request for Get Category Object by pk from Category DB 
+        """
+        try:
+            category = Category.objects.filter(id=pk)
+            serializer = CategorySerializer(category, many=True)
+            return Response(serializer.data)
+        except Category.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND

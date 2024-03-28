@@ -38,7 +38,8 @@ class ListDetailsViewSet(APIView):
         Help Queryset for delete and update List objects
         """
         try:
-            list = List.objects.get(creator=pk)
+            list = List.objects.get(id=pk)
+            print('ID ', pk)
             return list
         except List.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
@@ -48,19 +49,12 @@ class ListDetailsViewSet(APIView):
         """
         Delete Request for Delete List Object by pk in Video List DB 
         """
-        video = self.get_queryset(pk)
-        video.delete()
+        list = self.get_queryset(pk)
+        list.delete()
         return Response(status.HTTP_204_NO_CONTENT)
-    
-    
-    def patch(self, request, pk, format=None):
-        """
-        Patch Request for Update List Object by pk in Video List DB 
-        """
-        video_object = self.get_queryset(pk)
 
-        serializer = ListSerializer(video_object, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(status.HTTP_400_BAD_REQUEST)
+
+def deleteListByDeleteVideo(request, pk):
+    list = List.objects.filter(list=pk)
+    list.delete()
+    return Response(status.HTTP_204_NO_CONTENT)

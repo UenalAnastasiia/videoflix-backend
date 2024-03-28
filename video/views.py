@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from rest_framework import status
 from rest_framework.views import APIView
+
+import video_list
 from .serializers import VideoSerializer
 from .models import Video
 from .tasks import create_backup_export
@@ -71,6 +73,7 @@ class VideoDetailsViewSet(APIView):
         """
         video = self.get_queryset(pk)
         video.delete()
+        video_list.views.deleteListByDeleteVideo(request, pk)
         return Response(status.HTTP_204_NO_CONTENT)
     
     
