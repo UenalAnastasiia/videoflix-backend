@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user',
     'category',
     'video_list',
+    'registration',
     'rest_framework',
     'rest_framework.authtoken',
 ]
