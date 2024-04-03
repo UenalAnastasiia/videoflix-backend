@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'user',
     'category',
     'video_list',
-    'authentication',
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200']

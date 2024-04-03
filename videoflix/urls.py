@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from authentication.views import LoginView, register_view, confirm_email_view
+from user.views import LoginView, register_view, confirm_email_view
 from category.views import CategoryDetailsViewSet, CategoryViewSet
 from video.views import VideoDetailsViewSet, VideoViewSet, export_backend_view
 from video_list.views import ListDetailsViewSet, ListViewSet
