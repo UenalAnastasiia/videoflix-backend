@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-
 from django.conf.global_settings import AUTH_USER_MODEL, STATIC_ROOT
-
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g+m8n3a+$zhtsr0%*k74m-dxamo=yy0-018s-4-p)vry7&!+iv'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'video.apps.VideoConfig',
     'debug_toolbar',
     'import_export',
+    'rest_framework',
+    'rest_framework.authtoken',
     'user',
     'category',
     'video_list',
-    'registration',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'authentication',
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
@@ -187,3 +187,12 @@ BACKUP_URL='/backup/'
 
 # Cache time to live is 15 minutes.
 CACHE_TTL = 60 * 15
+
+# SMTP settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_GMAIL')
