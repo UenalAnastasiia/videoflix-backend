@@ -28,7 +28,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'corsheaders',
@@ -39,17 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'video.apps.VideoConfig',
     'debug_toolbar',
     'import_export',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
     'user',
+    'video.apps.VideoConfig',
     'category',
     'video_list',
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 AUTH_USER_MODEL = 'user.CustomUser'
@@ -63,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 INTERNAL_IPS = [
@@ -100,7 +101,7 @@ ROOT_URLCONF = 'videoflix.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
