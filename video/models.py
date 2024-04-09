@@ -11,7 +11,7 @@ class Video(models.Model):
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
     cover_picture = models.FileField(upload_to='covers', blank=True, null=True)
-    category = models.CharField(max_length=5, null=True)
+    category = models.CharField(max_length=50, null=True)
     
     def __str__(self):
         return self.title

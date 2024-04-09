@@ -1,12 +1,15 @@
+from django.contrib.auth import logout
 from django.http import JsonResponse
 from odf.table import ErrorMessage
+from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import RegisterSerializer
+from rest_framework.views import APIView
+from .serializers import RegisterSerializer, UserSerializer
 from .functions import send_confirmation_email
-from user.models import CustomUser
+from .models import CustomUser
 import uuid
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -57,6 +60,35 @@ class LoginView(ObtainAuthToken):
             return Response({
                 'token': token.key,
                 'user_id': user.pk,
-                'email': user.email
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                
             })
         else: Response(serializer.errors)
+        
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        """"
+        Get Request for Logout User from system
+        """
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
+
+
+class UsersViewSet(APIView):
+
+    def get(self, request, format=None):
+        receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined')
+        return Response(receiverList)
+    
+
+class UserDetailsViewSet(APIView):
+    def get(self, request, pk):
+        try:
+            user = CustomUser.objects.filter(id=pk)
+            serializer = UserSerializer(user, many=True)
+            return Response(serializer.data)
+        except CustomUser.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND

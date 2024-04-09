@@ -3,8 +3,8 @@ from .models import Category
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    fields = ['name']
-    list_display = ['id', 'name']
+    fields = ['name', 'creator']
+    list_display = ['id', 'name', 'creator']
 
 
 admin.site.register(Category, CategoryAdmin)

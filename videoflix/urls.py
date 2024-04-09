@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from user.views import LoginView, register_view, confirm_email_view
+from user.views import LoginView, UserDetailsViewSet, UsersViewSet, register_view, confirm_email_view
 from category.views import CategoryDetailsViewSet, CategoryViewSet
 from video.views import VideoDetailsViewSet, VideoViewSet, export_backend_view
 from video_list.views import ListDetailsViewSet, ListViewSet
@@ -18,6 +18,8 @@ urlpatterns = [
     path('register/', register_view),
     path('confirm_email/<token>/', confirm_email_view),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('users/', UsersViewSet.as_view()),
+    path('users/<int:pk>/', UserDetailsViewSet.as_view()),
     path('videos/', VideoViewSet.as_view()),
     path('videos/<int:pk>/', VideoDetailsViewSet.as_view()),
     path('category/', CategoryViewSet.as_view()),
