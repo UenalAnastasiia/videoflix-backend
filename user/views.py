@@ -62,13 +62,14 @@ class LoginView(ObtainAuthToken):
                 'user_id': user.pk,
                 'email': user.email,
                 'first_name': user.first_name,
-                'last_name': user.last_name,
+                'last_login': user.last_login,
+                'date_joined': user.date_joined,
                 
             })
         else: Response(serializer.errors)
         
 
-class Logout(APIView):
+class LogoutView(APIView):
     def get(self, request, format=None):
         """"
         Get Request for Logout User from system
@@ -80,7 +81,7 @@ class Logout(APIView):
 class UsersViewSet(APIView):
 
     def get(self, request, format=None):
-        receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined')
+        receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login')
         return Response(receiverList)
     
 

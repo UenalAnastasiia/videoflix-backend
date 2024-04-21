@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from user.views import LoginView, UserDetailsViewSet, UsersViewSet, register_view, confirm_email_view
+from user.views import LoginView, LogoutView, UserDetailsViewSet, UsersViewSet, register_view, confirm_email_view
 from category.views import CategoryDetailsViewSet, CategoryViewSet
 from video.views import VideoDetailsViewSet, VideoViewSet, export_backend_view
 from video_list.views import ListDetailsViewSet, ListViewSet
@@ -15,6 +15,7 @@ urlpatterns = [
     path('django-rq/', include('django_rq.urls')),
     path('export/', export_backend_view),
     path('login/', LoginView.as_view()),
+    path('logout/', LogoutView.as_view()),
     path('register/', register_view),
     path('confirm_email/<token>/', confirm_email_view),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
