@@ -40,3 +40,27 @@ class CategoryDetailsViewSet(APIView):
             return Response(serializer.data)
         except Category.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
+    
+    
+    def get_queryset(self, pk):
+        """
+        Help Queryset for update category objects
+        """
+        try:
+            category = Category.objects.get(id=pk)
+            return category
+        except Category.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+    
+    
+    def patch(self, request, pk, format=None):
+        """
+        Patch Request for Update Category Object by pk in Categories DB 
+        """
+        category_object = self.get_queryset(pk)
+
+        serializer = CategorySerializer(category_object, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status.HTTP_400_BAD_REQUEST)

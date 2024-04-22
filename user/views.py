@@ -62,6 +62,7 @@ class LoginView(ObtainAuthToken):
                 'user_id': user.pk,
                 'email': user.email,
                 'first_name': user.first_name,
+                'last_name': user.last_name,
                 'last_login': user.last_login,
                 'date_joined': user.date_joined,
                 
