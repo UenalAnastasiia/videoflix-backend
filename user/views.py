@@ -94,3 +94,27 @@ class UserDetailsViewSet(APIView):
             return Response(serializer.data)
         except CustomUser.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
+        
+
+    def get_queryset(self, pk):
+        """
+        Help Queryset for update user objects
+        """
+        try:
+            user = CustomUser.objects.get(id=pk)
+            return user
+        except CustomUser.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+        
+    
+    def patch(self, request, pk, format=None):
+        """
+        Patch Request for Update User Object by pk in Users DB 
+        """
+        user = self.get_queryset(pk)
+
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status.HTTP_400_BAD_REQUEST)

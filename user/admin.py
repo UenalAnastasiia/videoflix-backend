@@ -15,7 +15,8 @@ class CustomUserAdmin(admin.ModelAdmin):
                 'fields': (
                     'custom',
                     'phone',
-                    'address',
+                    'street',
+                    'city',
                     'email_confirmation_token',
                     'email_confirmed',
                 )
