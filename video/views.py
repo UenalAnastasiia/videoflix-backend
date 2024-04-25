@@ -88,3 +88,14 @@ class VideoDetailsViewSet(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(status.HTTP_400_BAD_REQUEST)
+
+
+class UserUploads(APIView):
+    def get(self, request, pk):
+        """
+        Get Request for Get all User Uploads from Videos DB 
+        """
+        videos = Video.objects.filter(creator=pk).order_by('created_at')
+        print('DATA: ', request)
+        serializer = VideoSerializer(videos, many=True)
+        return Response(serializer.data)
