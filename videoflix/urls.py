@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from user.views import LoginView, LogoutView, UserDetailsViewSet, UsersViewSet, register_view, confirm_email_view
-from category.views import CategoryDetailsViewSet, CategoryViewSet
+from category.views import CategoryDetailsViewSet, CategoryViewSet, UserCategories
 from video.views import UserUploads, VideoDetailsViewSet, VideoViewSet, export_backend_view
 from video_list.views import ListDetailsViewSet, ListViewSet
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('users/', UsersViewSet.as_view()),
     path('users/<int:pk>/', UserDetailsViewSet.as_view()),
     path('users/uploads/<int:pk>/', UserUploads.as_view()),
+    path('users/categories/<int:pk>/', UserCategories.as_view()),
     path('videos/', VideoViewSet.as_view()),
     path('videos/<int:pk>/', VideoDetailsViewSet.as_view()),
     path('category/', CategoryViewSet.as_view()),

@@ -64,3 +64,14 @@ class CategoryDetailsViewSet(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(status.HTTP_400_BAD_REQUEST)
+
+
+class UserCategories(APIView):
+    def get(self, request, pk):
+        """
+        Get Request for Get all Categories from Category DB created by User
+        """
+        categories = Category.objects.filter(creator=pk)
+        print('DATA: ', request)
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
