@@ -64,6 +64,15 @@ class CategoryDetailsViewSet(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(status.HTTP_400_BAD_REQUEST)
+    
+    
+    def delete(self, request, pk, format=None):
+        """
+        Delete Request for Delete Category Object by pk in Categories DB 
+        """
+        category_object = self.get_queryset(pk)
+        category_object.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
 
 
 class UserCategories(APIView):
