@@ -1,5 +1,6 @@
 from django.contrib.auth import logout
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from odf.table import ErrorMessage
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -40,9 +41,10 @@ def confirm_email_view(request, token):
         user.email_confirmed = True
         user.is_active = True
         user.save()
-        return JsonResponse({'message': 'Your email has been confirmed. You can now log in.'})
+        return redirect("http://localhost:4200/confirm-email")
+        # return JsonResponse({'message': 'Your email has been confirmed. You can now log in.'})
     except CustomUser.DoesNotExist:
-        return JsonResponse({'error': 'Invalid confirmation token.'})
+        return redirect("http://localhost:4200/confirm-error")
     
 
 class LoginView(ObtainAuthToken):
