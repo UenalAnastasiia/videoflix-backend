@@ -24,7 +24,9 @@ def register_view(request):
     if serializer.is_valid(raise_exception=True):
         user = CustomUser.objects.create_user(username=request.data['username'], 
                                               email=request.data['email'], 
-                                              password=request.data['password'], 
+                                              password=request.data['password'],
+                                              first_name=request.data['first_name'],
+                                              last_name=request.data['last_name'],
                                               email_confirmation_token=token, 
                                               is_active=False)
         send_confirmation_email(user, token)
@@ -66,6 +68,7 @@ class LoginView(ObtainAuthToken):
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'last_login': user.last_login,
+                'username': user.username,
                 'date_joined': user.date_joined,
                 
             })
