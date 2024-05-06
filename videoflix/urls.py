@@ -6,6 +6,7 @@ from user.views import LoginView, LogoutView, UserDetailsViewSet, UsersViewSet, 
 from category.views import CategoryDetailsViewSet, CategoryViewSet, UserCategories
 from video.views import UserUploads, VideoDetailsViewSet, VideoViewSet, export_backend_view
 from video_list.views import ListDetailsViewSet, ListViewSet
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 
@@ -29,4 +30,8 @@ urlpatterns = [
     path('category/<int:pk>/', CategoryDetailsViewSet.as_view()),
     path('list/', ListViewSet.as_view()),
     path('list/<int:pk>/', ListDetailsViewSet.as_view()),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]
+# + staticfiles_urlpatterns()
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

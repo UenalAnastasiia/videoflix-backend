@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-g+m8n3a+$zhtsr0%*k74m-dxamo=yy0-018s-4-p)vry7&!+iv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'video_list',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'videoflix.anastasiia-uenal.de']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "videoflix-backend.anastasiia-uenal.de"]
 
 
 AUTH_USER_MODEL = 'user.CustomUser'
@@ -166,7 +166,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
