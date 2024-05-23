@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from django.conf.global_settings import AUTH_USER_MODEL, STATIC_ROOT
 from dotenv import load_dotenv
+from django.core.files.storage import FileSystemStorage
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,11 +47,11 @@ INSTALLED_APPS = [
     'user',
     'video.apps.VideoConfig',
     'category',
-    'video_list',
+    'video_list'
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'videoflix.anastasiia-uenal.de']
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "videoflix-backend.anastasiia-uenal.de"]
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://videoflix.anastasiia-uenal.de']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "anastasiia-backend.developerakademie.net"]
 
 
 AUTH_USER_MODEL = 'user.CustomUser'

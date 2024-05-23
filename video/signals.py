@@ -1,16 +1,23 @@
 import os
+from django.conf import settings
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from video.tasks import convert_video_360p, convert_video_720p, convert_video_1080p
 from .models import Video
 import django_rq
+from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
 
+storage = FileSystemStorage(location='https://videoflix.anastasiia-uenal.de/media/')
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     """
     Save file to filesystem
     """
     if created:
+        file_content = instance.video_file
+        file_name = f'{instance.title}.mp4'
+        storage.save(file_name, ContentFile(file_content))
         queue = django_rq.get_queue('default', autocommit=True)
         queue.enqueue(convert_video_360p, instance.video_file.path)
         queue.enqueue(convert_video_720p, instance.video_file.path)

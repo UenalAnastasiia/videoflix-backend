@@ -10,3 +10,4 @@ class CustomUser(AbstractUser):
     city = models.CharField(max_length=150, default='')
     email_confirmation_token = models.CharField(max_length=50, default='')
     email_confirmed = models.BooleanField(default=False)
+    image = models.CharField(max_length=500, default='', null=True)

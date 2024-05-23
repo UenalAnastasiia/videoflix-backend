@@ -27,6 +27,7 @@ def register_view(request):
                                               password=request.data['password'],
                                               first_name=request.data['first_name'],
                                               last_name=request.data['last_name'],
+                                              image=request.data['image'],
                                               email_confirmation_token=token, 
                                               is_active=False)
         send_confirmation_email(user, token)
@@ -43,10 +44,10 @@ def confirm_email_view(request, token):
         user.email_confirmed = True
         user.is_active = True
         user.save()
-        return redirect("http://localhost:4200/confirm-email")
+        return redirect("https://videoflix.anastasiia-uenal.de/confirm-email")
         # return JsonResponse({'message': 'Your email has been confirmed. You can now log in.'})
     except CustomUser.DoesNotExist:
-        return redirect("http://localhost:4200/confirm-error")
+        return redirect("https://videoflix.anastasiia-uenal.de/confirm-error")
     
 
 class LoginView(ObtainAuthToken):
@@ -70,7 +71,7 @@ class LoginView(ObtainAuthToken):
                 'last_login': user.last_login,
                 'username': user.username,
                 'date_joined': user.date_joined,
-                
+                'image': user.image,
             })
         else: Response(serializer.errors)
         
@@ -87,7 +88,7 @@ class LogoutView(APIView):
 class UsersViewSet(APIView):
 
     def get(self, request, format=None):
-        receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login')
+        receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login', 'image')
         return Response(receiverList)
     
 

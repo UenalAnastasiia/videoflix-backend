@@ -14,10 +14,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     password_repeat = serializers.CharField(write_only=True, required=True)
     first_name = serializers.CharField(max_length=20)
     last_name = serializers.CharField(max_length=20)
+    image = serializers.CharField(max_length=500)
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'password', 'password_repeat', 'email', 'first_name', 'last_name')
+        fields = ('username', 'password', 'password_repeat', 'email', 'first_name', 'last_name', 'image')
 
 
     def validate(self, attrs):
