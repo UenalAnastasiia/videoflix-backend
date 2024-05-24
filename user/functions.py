@@ -7,5 +7,5 @@ from django.conf import settings
 def send_confirmation_email(user, token):
     subject = 'Confirm your email'
     encode_token = urlsafe_base64_encode(force_bytes(token))
-    message = f'Please click the following link to confirm your email: http://127.0.0.1:8000/confirm_email/{encode_token}/'
+    message = f'Please click the following link to confirm your email: https://backend.anastasiia-uenal.de/confirm_email/{encode_token}/'
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])

@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     'video_list'
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://videoflix.anastasiia-uenal.de']
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "videoflix-backend.anastasiia-uenal.de"]
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'https://videoflix.anastasiia-uenal.de']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.233.7.17", "videoflix.anastasiia-uenal.de"]
 
 
 AUTH_USER_MODEL = 'user.CustomUser'
@@ -75,7 +75,7 @@ INTERNAL_IPS = [
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://35.233.7.17:6379/1",
         "OPTIONS": {
              "REDIS_CLIENT_KWARGS": {
                 "ssl_cert_reqs": None,

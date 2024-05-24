@@ -29,7 +29,7 @@ def register_view(request):
                                               last_name=request.data['last_name'],
                                               image=request.data['image'],
                                               email_confirmation_token=token, 
-                                              is_active=False)
+                                              is_active=True)
         send_confirmation_email(user, token)
         return Response({'message': 'User registered successfully. Please check your email for confirmation.'},
             status=status.HTTP_201_CREATED)
@@ -63,18 +63,20 @@ class LoginView(ObtainAuthToken):
                                            context={'request': request})
         if serializer.is_valid():
             user = serializer.validated_data['user']
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'token': token.key,
-                'user_id': user.pk,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'last_login': user.last_login,
-                'username': user.username,
-                'date_joined': user.date_joined,
-                'image': user.image,
-            })
+            if user.email_confirmed:
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({
+                    'token': token.key,
+                    'user_id': user.pk,
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'username': user.username,
+                    'date_joined': user.date_joined,
+                    'image': user.image,
+                })
+            else:
+                return Response({'error': 'Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen.'}, status=status.HTTP_403_FORBIDDEN)
         else: Response(serializer.errors)
         
 

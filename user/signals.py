@@ -18,7 +18,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
-        'reset_password_url': "http://localhost:4200/password-reset/token={}".format(reset_password_token.key)
+        'reset_password_url': "https://videoflix.anastasiia-uenal.de/password-reset/token={}".format(reset_password_token.key)
     }
 
     email_html_message = render_to_string('email/password_reset_email.html', context)
