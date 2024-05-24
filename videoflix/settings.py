@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://videoflix.anastasiia-uenal.de']
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "anastasiia-backend.developerakademie.net"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "35.195.70.17", "videoflix-backend.anastasiia-uenal.de"]
 
 
 AUTH_USER_MODEL = 'user.CustomUser'

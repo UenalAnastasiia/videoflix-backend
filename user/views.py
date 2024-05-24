@@ -31,9 +31,11 @@ def register_view(request):
                                               email_confirmation_token=token, 
                                               is_active=False)
         send_confirmation_email(user, token)
-        return JsonResponse({'message': 'User registered successfully. Please check your email for confirmation.'})
+        return Response({'message': 'User registered successfully. Please check your email for confirmation.'},
+            status=status.HTTP_201_CREATED)
     else:
-        return JsonResponse(ErrorMessage, status=400) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #return JsonResponse(ErrorMessage, status=400) 
 
 
 @api_view(['GET'])

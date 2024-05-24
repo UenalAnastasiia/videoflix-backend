@@ -36,7 +36,7 @@ class VideoViewSet(APIView):
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 
@@ -74,7 +74,7 @@ class VideoDetailsViewSet(APIView):
         video = self.get_queryset(pk)
         video.delete()
         video_list.views.deleteListByDeleteVideo(request, pk)
-        return Response(status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
     
     def patch(self, request, pk, format=None):
@@ -96,6 +96,5 @@ class UserUploads(APIView):
         Get Request for Get all User Uploads from Videos DB 
         """
         videos = Video.objects.filter(creator=pk).order_by('created_at')
-        print('DATA: ', request)
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)

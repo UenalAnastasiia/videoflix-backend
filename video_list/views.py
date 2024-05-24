@@ -13,8 +13,8 @@ class ListViewSet(APIView):
         serializer = ListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ListDetailsViewSet(APIView):
@@ -30,7 +30,7 @@ class ListDetailsViewSet(APIView):
             serializer = ListSerializer(video, many=True)
             return Response(serializer.data)
         except List.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
+            raise Response(status=status.HTTP_404_NOT_FOUND)
     
     
     def get_queryset(self, pk):
@@ -39,22 +39,26 @@ class ListDetailsViewSet(APIView):
         """
         try:
             list = List.objects.get(id=pk)
-            print('ID ', pk)
-            return list
         except List.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
+            raise Response(status=status.HTTP_404_NOT_FOUND)
         
     
     def delete(self, request, pk, format=None):
         """
         Delete Request for Delete List Object by pk in Video List DB 
         """
-        list = self.get_queryset(pk)
-        list.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+        try:
+            list = self.get_queryset(pk)
+            if list:
+                list.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response(data={'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 def deleteListByDeleteVideo(request, pk):
     list = List.objects.filter(list=pk)
     list.delete()
-    return Response(status.HTTP_204_NO_CONTENT)
+    return Response(status=status.HTTP_204_NO_CONTENT)
