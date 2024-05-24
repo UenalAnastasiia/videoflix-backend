@@ -48,14 +48,29 @@ class ConfirmEmailViewTests(APITestCase):
 
 class LoginViewTests(APITestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username='testuser', password='testpass123')
+        self.user = CustomUser.objects.create_user(username='testuser', email='test@example.com', password='password', email_confirmed=True)
+        self.login_url = reverse('login')
     
-    def test_login_user(self):
-        url = reverse('login')
-        data = {'username': 'testuser', 'password': 'testpass123'}
-        response = self.client.post(url, data, format='json')
+    def test_login_successful(self):
+        data = {'username': 'testuser', 'password': 'password'}
+        response = self.client.post(self.login_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('token', response.data)
+        self.assertTrue('token' in response.data)
+        self.assertTrue('user_id' in response.data)
+        self.assertTrue('email' in response.data)
+        self.assertTrue('first_name' in response.data)
+        self.assertTrue('last_name' in response.data)
+        self.assertTrue('username' in response.data)
+        self.assertTrue('date_joined' in response.data)
+        self.assertTrue('image' in response.data)
+    
+    def test_login_unconfirmed_email(self):
+        self.user.email_confirmed = False
+        self.user.save()
+        data = {'username': 'testuser', 'password': 'password'}
+        response = self.client.post(self.login_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data['error'], 'Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen.')
 
 
 class LogoutViewTests(APITestCase):

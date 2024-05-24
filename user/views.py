@@ -1,7 +1,5 @@
 from django.contrib.auth import logout
-from django.http import JsonResponse
 from django.shortcuts import redirect
-from odf.table import ErrorMessage
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -53,7 +51,6 @@ def confirm_email_view(request, token):
     
 
 class LoginView(ObtainAuthToken):
-    
     def post(self, request, *args, **kwargs):
         """
         Post Request for check username and password is correct in Users DB => if coorect => Login User in System
@@ -74,10 +71,10 @@ class LoginView(ObtainAuthToken):
                     'username': user.username,
                     'date_joined': user.date_joined,
                     'image': user.image,
-                })
+                }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen.'}, status=status.HTTP_403_FORBIDDEN)
-        else: Response(serializer.errors)
+        else: Response({'error': 'Ungültige Anmeldeinformationen.'}, status=status.HTTP_400_BAD_REQUEST)
         
 
 class LogoutView(APIView):
