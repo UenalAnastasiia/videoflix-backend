@@ -4,6 +4,9 @@ from category.models import Category
 from user.models import CustomUser
 
 
+class Videoage(models.Model):
+    AGE_RESTRICTION = ((1, '6'), (2, '12'), (3, '16'), (4, '18'))
+
 class Video(models.Model):
     created_at = models.DateField(default=date.today)
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
@@ -12,6 +15,8 @@ class Video(models.Model):
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
     cover_picture = models.FileField(upload_to='covers', blank=True, null=True)
     category = models.CharField(max_length=50, null=True)
+    release_year = models.CharField(max_length=20, null=True)
+    age = models.IntegerField(choices=Videoage.AGE_RESTRICTION, null=True)
     
     def __str__(self):
         return self.title
