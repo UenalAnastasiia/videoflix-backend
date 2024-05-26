@@ -8,8 +8,6 @@ from video.views import UserUploads, VideoDetailsViewSet, VideoViewSet, export_b
 from video_list.views import ListDetailsViewSet, ListViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__/", include('debug_toolbar.urls')),
