@@ -33,7 +33,6 @@ def register_view(request):
             status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        #return JsonResponse(ErrorMessage, status=400) 
 
 
 @api_view(['GET'])
@@ -45,7 +44,6 @@ def confirm_email_view(request, token):
         user.is_active = True
         user.save()
         return redirect("https://videoflix.anastasiia-uenal.de/confirm-email")
-        # return JsonResponse({'message': 'Your email has been confirmed. You can now log in.'})
     except CustomUser.DoesNotExist:
         return redirect("https://videoflix.anastasiia-uenal.de/confirm-error")
     

@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from rest_framework import status
 from rest_framework.views import APIView
-
 import video_list
 from .serializers import VideoSerializer
 from .models import Video
