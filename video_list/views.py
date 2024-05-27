@@ -31,30 +31,29 @@ class ListDetailsViewSet(APIView):
             return Response(serializer.data)
         except List.DoesNotExist:
             raise Response(status=status.HTTP_404_NOT_FOUND)
-    
-    
+
+
+class ListOptionsViewSet(APIView):
     def get_queryset(self, pk):
         """
         Help Queryset for delete and update List objects
         """
         try:
-            list = List.objects.get(id=pk)
+            return List.objects.get(id=pk)
         except List.DoesNotExist:
-            raise Response(status=status.HTTP_404_NOT_FOUND)
-        
-    
+            raise Exception("List object not found")
+
     def delete(self, request, pk, format=None):
         """
         Delete Request for Delete List Object by pk in Video List DB 
         """
         try:
             list = self.get_queryset(pk)
-            if list:
-                list.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            list.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
+            if str(e) == "List object not found":
+                return Response(status=status.HTTP_404_NOT_FOUND)
             return Response(data={'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

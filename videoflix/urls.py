@@ -5,7 +5,7 @@ from django.urls import include, path
 from user.views import LoginView, LogoutView, UserDetailsViewSet, UsersViewSet, register_view, confirm_email_view
 from category.views import CategoryDetailsViewSet, CategoryViewSet, UserCategories
 from video.views import UserUploads, VideoDetailsViewSet, VideoViewSet, export_backend_view
-from video_list.views import ListDetailsViewSet, ListViewSet
+from video_list.views import ListDetailsViewSet, ListOptionsViewSet, ListViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
@@ -28,6 +28,7 @@ urlpatterns = [
     path('category/<int:pk>/', CategoryDetailsViewSet.as_view(), name='category-detail'),
     path('list/', ListViewSet.as_view(), name='list-list'),
     path('list/<int:pk>/', ListDetailsViewSet.as_view(), name='list-detail'),
+    path('list/delete/<int:pk>/', ListOptionsViewSet.as_view()),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

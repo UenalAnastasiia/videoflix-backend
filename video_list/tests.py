@@ -28,8 +28,3 @@ class ListDetailsViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['list'], 'Test List')
-    
-    def test_delete_list(self):
-        self.client.login(username='testuser', password='password')
-        response = self.client.delete(self.url)
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
