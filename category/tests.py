@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import Category
 
+
 class CategoryViewSetTests(APITestCase):
     def setUp(self):
         self.category_data = {'name': 'Test Category'}

@@ -29,7 +29,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         email_plaintext_message,
         settings.DEFAULT_FROM_EMAIL,
         [reset_password_token.user.email]
-    )   
-                           
+    )                  
     msg.attach_alternative(email_html_message, "text/html")
     msg.send()

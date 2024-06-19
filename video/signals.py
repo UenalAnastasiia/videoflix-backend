@@ -1,5 +1,4 @@
 import os
-from django.conf import settings
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from video.tasks import convert_video_360p, convert_video_720p, convert_video_1080p
@@ -17,7 +16,7 @@ def video_post_save(sender, instance, created, **kwargs):
         queue.enqueue(convert_video_360p, instance.video_file.path)
         queue.enqueue(convert_video_720p, instance.video_file.path)
         queue.enqueue(convert_video_1080p, instance.video_file.path)
-        
+
 
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
@@ -33,7 +32,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
                 converted_video = filename + p + extension
                 if os.path.isfile(converted_video):
                     os.remove(converted_video)
-    
+
     if instance.cover_picture:
         if os.path.isfile(instance.cover_picture.path):
             os.remove(instance.cover_picture.path)

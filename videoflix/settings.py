@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-from django.conf.global_settings import AUTH_USER_MODEL, STATIC_ROOT
 from dotenv import load_dotenv
-from django.core.files.storage import FileSystemStorage
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,14 +75,14 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://35.233.7.17:6379/1",
         "OPTIONS": {
-             "REDIS_CLIENT_KWARGS": {
+            "REDIS_CLIENT_KWARGS": {
                 "ssl_cert_reqs": None,
                 "ssl": True,
-                },
+            }, 
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
-            },
+        },
         "KEY_PREFIX": "videoflix"
-        }
+    }
 }
 
 RQ_QUEUES = {

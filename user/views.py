@@ -29,8 +29,7 @@ def register_view(request):
                                               email_confirmation_token=token, 
                                               is_active=True)
         send_confirmation_email(user, token)
-        return Response({'message': 'User registered successfully. Please check your email for confirmation.'},
-            status=status.HTTP_201_CREATED)
+        return Response({'message': 'User registered successfully. Please check your email for confirmation.'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -46,7 +45,7 @@ def confirm_email_view(request, token):
         return redirect("https://videoflix.anastasiia-uenal.de/confirm-email")
     except CustomUser.DoesNotExist:
         return redirect("https://videoflix.anastasiia-uenal.de/confirm-error")
-    
+
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -72,8 +71,9 @@ class LoginView(ObtainAuthToken):
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen.'}, status=status.HTTP_403_FORBIDDEN)
-        else: Response({'error': 'Ungültige Anmeldeinformationen.'}, status=status.HTTP_400_BAD_REQUEST)
-        
+        else: 
+            Response({'error': 'Ungültige Anmeldeinformationen.'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     def get(self, request, format=None):
@@ -89,7 +89,7 @@ class UsersViewSet(APIView):
     def get(self, request, format=None):
         receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login', 'image')
         return Response(receiverList)
-    
+
 
 class UserDetailsViewSet(APIView):
     def get(self, request, pk):
@@ -99,7 +99,6 @@ class UserDetailsViewSet(APIView):
             return Response(serializer.data)
         except CustomUser.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
-        
 
     def get_queryset(self, pk):
         """
@@ -109,9 +108,8 @@ class UserDetailsViewSet(APIView):
             user = CustomUser.objects.get(id=pk)
             return user
         except CustomUser.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
-        
-    
+            raise status.HTTP_404_NOT_FOUND 
+
     def patch(self, request, pk, format=None):
         """
         Patch Request for Update User Object by pk in Users DB 

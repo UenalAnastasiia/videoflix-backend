@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from .models import Video
 
+
 class VideoViewSetTests(TestCase):
     def setUp(self):
         self.client = APIClient()

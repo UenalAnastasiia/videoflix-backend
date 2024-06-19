@@ -9,7 +9,7 @@ class CreatorSerializer(serializers.ModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'username', 'email']
 
 
-class ListSerializer(serializers.ModelSerializer ):
+class ListSerializer(serializers.ModelSerializer):
     creator = CreatorSerializer
 
     class Meta:

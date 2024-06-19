@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-
 from user.models import CustomUser
 
 
@@ -19,7 +18,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('username', 'password', 'password_repeat', 'email', 'first_name', 'last_name', 'image')
-
 
     def validate(self, attrs):
         """"
