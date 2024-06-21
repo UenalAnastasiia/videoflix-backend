@@ -16,6 +16,18 @@ from django.utils.encoding import force_str
 
 @api_view(['POST'])
 def register_view(request):
+    """
+    API view for registering a new user.
+
+    This view accepts POST requests and creates a new user in the database,
+    validates the entries with the RegisterSerialiser and sends a confirmation email.
+
+    Args:
+        request (HttpRequest): The HTTP request with the user data.
+
+    Returns:
+        Response: An HTTP response indicating the success or failure of the registration.
+    """
     serializer_class = RegisterSerializer
     serializer = serializer_class(data=request.data, context={'request': request})
     token = str(uuid.uuid4())
@@ -36,6 +48,20 @@ def register_view(request):
 
 @api_view(['GET'])
 def confirm_email_view(request, token):
+    """
+    API view for confirming a user's email address.
+
+    This view accepts GET requests with a confirmation token,
+    decodes the token, finds the corresponding user in the database,
+    confirms the user's email address and redirects the user to the relevant page.
+
+    Args:
+        request (HttpRequest): The HTTP request with the confirmation token.
+        token (str): The confirmation token for the user's email address.
+
+    Returns:
+        HttpResponseRedirect: A redirect of the user to the confirmation page.
+    """
     try:
         decode_token = force_str(urlsafe_base64_decode(token))
         user = CustomUser.objects.get(email_confirmation_token=decode_token)
@@ -48,10 +74,14 @@ def confirm_email_view(request, token):
 
 
 class LoginView(ObtainAuthToken):
+    """
+    Customisation of the ObtainAuthToken class for the API view for logging in a user.
+    """
     def post(self, request, *args, **kwargs):
         """
-        Post Request for check username and password is correct in Users DB => if coorect => Login User in System
-        Check if Token Object for User exist => if not exist => create new Token Object in Tokens DB
+        POST request to check the user name and password in the user database.
+        If correct, the user is logged in.
+        Checks whether a token object exists for the user; if not, a new one is created.
         """
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -76,23 +106,37 @@ class LoginView(ObtainAuthToken):
 
 
 class LogoutView(APIView):
+    """
+    API view for logging out a user.
+    """
     def get(self, request, format=None):
-        """"
-        Get Request for Logout User from system
+        """
+        GET request to log the user out of the system.
         """
         logout(request)
         return Response(status=status.HTTP_200_OK)
 
 
 class UsersViewSet(APIView):
-
+    """
+    API view for retrieving a list of user objects.
+    """
     def get(self, request, format=None):
+        """
+        GET request to retrieve all users in the database.
+        """
         receiverList = CustomUser.objects.values('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login', 'image')
         return Response(receiverList)
 
 
 class UserDetailsViewSet(APIView):
+    """
+    API view for displaying and updating user details.
+    """
     def get(self, request, pk):
+        """
+        GET request to retrieve the details of a specific user based on their ID (pk).
+        """
         try:
             user = CustomUser.objects.filter(id=pk)
             serializer = UserSerializer(user, many=True)
@@ -102,7 +146,7 @@ class UserDetailsViewSet(APIView):
 
     def get_queryset(self, pk):
         """
-        Help Queryset for update user objects
+        Helper Query Set for updating user objects.
         """
         try:
             user = CustomUser.objects.get(id=pk)
@@ -112,7 +156,7 @@ class UserDetailsViewSet(APIView):
 
     def patch(self, request, pk, format=None):
         """
-        Patch Request for Update User Object by pk in Users DB 
+        PATCH request to update a user object based on its ID (pk).
         """
         user = self.get_queryset(pk)
 

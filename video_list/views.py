@@ -8,7 +8,7 @@ from rest_framework.response import Response
 class ListViewSet(APIView):    
     def post(self, request, format=None):
         """
-        Post Request for Upload List Object in Video List DB 
+        POST request to upload a list object to the video list database.
         """
         serializer = ListSerializer(data=request.data)
         if serializer.is_valid():
@@ -19,11 +19,11 @@ class ListViewSet(APIView):
 
 class ListDetailsViewSet(APIView):
     """
-    List Details Class
+    Class for detailed views of list objects.
     """
     def get(self, request, pk):
         """
-        Get Request for Get List Object by User ID from Videos DB 
+        GET request to retrieve list objects from the video database based on the user ID.
         """
         try:
             video = List.objects.filter(creator=pk)
@@ -36,7 +36,7 @@ class ListDetailsViewSet(APIView):
 class ListOptionsViewSet(APIView):
     def get_queryset(self, pk):
         """
-        Help Queryset for delete and update List objects
+        Helper Query Set for deleting and updating list objects.
         """
         try:
             return List.objects.get(id=pk)
@@ -45,7 +45,7 @@ class ListOptionsViewSet(APIView):
 
     def delete(self, request, pk, format=None):
         """
-        Delete Request for Delete List Object by pk in Video List DB 
+        DELETE request to delete a list object using the primary keys in the video list database.
         """
         try:
             list = self.get_queryset(pk)
@@ -58,6 +58,9 @@ class ListOptionsViewSet(APIView):
 
 
 def deleteListByDeleteVideo(request, pk):
+    """
+    Function for deleting lists based on the video ID.
+    """
     list = List.objects.filter(list=pk)
     list.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)

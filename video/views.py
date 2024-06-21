@@ -15,14 +15,26 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 def export_backend_view(request):
+    """
+    Exports the video content as a JSON backup in the backend.
+
+    Returns:
+        HttpResponse: An HTTP response with the exported JSON content.
+
+    Notes:
+        - Uses the `create_backup_export()` function to export the video content.
+    """
     backup_json = create_backup_export()
     return HttpResponse(backup_json)
 
 
 class VideoViewSet(APIView):
+    """
+    ViewSet for video objects.
+    """
     def get(self, request, format=None):
         """
-        Get Request for Get all Video Objects from Videos DB 
+        GET request to retrieve all video objects from the video database.
         """
         videos = Video.objects.all().order_by('created_at')
         serializer = VideoSerializer(videos, many=True)
@@ -30,7 +42,7 @@ class VideoViewSet(APIView):
 
     def post(self, request, format=None):
         """
-        Post Request for Upload Video Object in Videos DB 
+        POST request to upload a new video object to the video database.
         """
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,11 +53,11 @@ class VideoViewSet(APIView):
 
 class VideoDetailsViewSet(APIView):
     """
-    Video Details Class
+    Class for detailed views of video objects.
     """
     def get(self, request, pk):
         """
-        Get Request for Get Video Object by pk from Videos DB 
+        GET request to retrieve a specific video object from the database using the primary key.
         """
         try:
             video = Video.objects.filter(id=pk)
@@ -56,7 +68,7 @@ class VideoDetailsViewSet(APIView):
 
     def get_queryset(self, pk):
         """
-        Help Queryset for delete and update video objects
+        Helper Query Set for deleting and updating video objects.
         """
         try:
             video = Video.objects.get(id=pk)
@@ -66,7 +78,7 @@ class VideoDetailsViewSet(APIView):
 
     def delete(self, request, pk, format=None):
         """
-        Delete Request for Delete Video Object by pk in Videos DB 
+        DELETE request to delete a specific video object from the database using the primary keys.
         """
         video = self.get_queryset(pk)
         video.delete()
@@ -75,7 +87,7 @@ class VideoDetailsViewSet(APIView):
 
     def patch(self, request, pk, format=None):
         """
-        Patch Request for Update Video Object by pk in Videos DB 
+        PATCH request to update a specific video object using the primary keys in the database.
         """
         video_object = self.get_queryset(pk)
 
@@ -89,7 +101,7 @@ class VideoDetailsViewSet(APIView):
 class UserUploads(APIView):
     def get(self, request, pk):
         """
-        Get Request for Get all User Uploads from Videos DB 
+        GET request to retrieve all videos uploaded by the user from the videos database.
         """
         videos = Video.objects.filter(creator=pk).order_by('created_at')
         serializer = VideoSerializer(videos, many=True)

@@ -7,7 +7,14 @@ from django.conf import settings
 
 def convert_video_360p(input):
     """
-    Convert Video from Input in 360p with ffmpeg and save it to filesystem
+    Converts a video to 360p resolution with ffmpeg and saves it to the file system.
+
+    Args:
+        input (str): The file path to the input video.
+
+    Hints:
+        - Uses ffmpeg to convert the video to 360p resolution.
+        - Saves the converted file in the same directory with "_360p" as a suffix in the file name.
     """
     filename, extension = os.path.splitext(input)
     output = filename + '_360p' + extension
@@ -17,7 +24,14 @@ def convert_video_360p(input):
 
 def convert_video_720p(input):
     """
-    Convert Video from Input in 720p with ffmpeg and save it to filesystem
+    Converts a video to 720p resolution with ffmpeg and saves it to the file system.
+
+    Args:
+        input (str): The file path to the input video.
+
+    Notes:
+        - Uses ffmpeg to convert the video to 720p resolution.
+        - Saves the converted file in the same directory with "_720p" as a suffix in the file name.
     """
     filename, extension = os.path.splitext(input)
     output = filename + '_720p' + extension
@@ -27,7 +41,14 @@ def convert_video_720p(input):
 
 def convert_video_1080p(input):
     """
-    Convert Video from Input in 1080p with ffmpeg and save it to filesystem
+    Converts a video to 1080p resolution with ffmpeg and saves it to the file system.
+
+    Args:
+        input (str): The file path to the input video.
+
+    Hints:
+        - Uses ffmpeg to convert the video to 1080p resolution.
+        - Saves the converted file in the same directory with "_1080p" as a suffix in the file name.
     """
     filename, extension = os.path.splitext(input)
     output = filename + '_1080p' + extension
@@ -37,7 +58,14 @@ def convert_video_1080p(input):
 
 def create_backup_export():
     """
-    Create Backup from Video-Content in JSON-Format in directory "backend"
+    Creates a backup of the video content in JSON format in the "BACKUP_ROOT" directory.
+
+    Returns:
+        str: The JSON content of the backup.
+
+    Notes:
+        - Uses the Django `VideoResource` to export the video content.
+        - Saves the backup as a JSON file in the directory specified in the Django settings under `BACKUP_ROOT`.
     """
     video_resource = VideoResource()
     dataset = video_resource.export()

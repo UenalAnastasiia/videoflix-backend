@@ -9,7 +9,16 @@ import django_rq
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     """
-    Save file to filesystem
+    Signal handler to save files to the filesystem when a Video object is saved.
+
+    Args:
+        sender (Video): The model class.
+        instance (Video): The actual instance being saved.
+        created (bool): Boolean flag indicating if the instance was created.
+        **kwargs: Additional keyword arguments.
+
+    Notes:
+        - Saves the video file in different resolutions (360p, 720p, 1080p) using background jobs.
     """
     if created and instance.video_file:
         queue = django_rq.get_queue('default', autocommit=True)
@@ -21,8 +30,15 @@ def video_post_save(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
-    Deletes files from filesystem
-    when corresponding `Video` object is deleted.
+    Signal handler to delete files from the filesystem when a Video object is deleted.
+
+    Args:
+        sender (Video): The model class.
+        instance (Video): The actual instance being deleted.
+        **kwargs: Additional keyword arguments.
+
+    Notes:
+        - Deletes the original video file and its converted versions (if any) upon deletion of the Video object.
     """
     if instance.video_file:
         if os.path.isfile(instance.video_file.path):

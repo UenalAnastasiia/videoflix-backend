@@ -5,10 +5,13 @@ from .serializer import CategorySerializer
 from .models import Category
 
 
-class CategoryViewSet(APIView):    
+class CategoryViewSet(APIView):
+    """
+    API ViewSet for general category operations.
+    """
     def get(self, request, format=None):
         """
-        Get all Category Objects from Category DB 
+        Returns all category objects from the category database. 
         """
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
@@ -16,7 +19,7 @@ class CategoryViewSet(APIView):
 
     def post(self, request, format=None):
         """
-        Create Category Object in Category DB 
+        Creates a new category object in the category database. 
         """
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
@@ -27,11 +30,11 @@ class CategoryViewSet(APIView):
 
 class CategoryDetailsViewSet(APIView):
     """
-    Category Details Class
+    API ViewSet for specific category operations.
     """
     def get_object(self, pk):
         """
-        Get Category Object by pk from Category DB 
+        Retrieves a category object from the category database using the primary key (pk). 
         """
         try:
             return Category.objects.get(pk=pk)
@@ -39,13 +42,16 @@ class CategoryDetailsViewSet(APIView):
             raise status.HTTP_404_NOT_FOUND
 
     def get(self, request, pk):
+        """
+        Returns a specific category object. 
+        """
         category = self.get_object(pk)
         serializer = CategorySerializer(category)
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
         """
-        Update Category Object by pk in Categories DB 
+        Partially updates a specific category object. 
         """
         category = self.get_object(pk)
         serializer = CategorySerializer(category, data=request.data, partial=True)
@@ -56,7 +62,7 @@ class CategoryDetailsViewSet(APIView):
 
     def delete(self, request, pk, format=None):
         """
-        Delete Category Object by pk in Categories DB 
+        Deletes a specific category object. 
         """
         category = self.get_object(pk)
         category.delete()
@@ -64,9 +70,12 @@ class CategoryDetailsViewSet(APIView):
 
 
 class UserCategories(APIView):
+    """
+    API ViewSet for retrieving categories of a specific user.
+    """
     def get(self, request, pk):
         """
-        Get all Categories from Category DB created by User
+        Returns all categories created by a specific user.
         """
         categories = Category.objects.filter(creator=pk)
         serializer = CategorySerializer(categories, many=True)

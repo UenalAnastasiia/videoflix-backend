@@ -6,7 +6,7 @@ from user.models import CustomUser
 
 class RegisterSerializer(serializers.ModelSerializer):
     """"
-    Register new User Object in Users DB
+    Serialiser for registering a new user object in the user database.
     """
     email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=CustomUser.objects.all())])
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -21,7 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """"
-        Check def if both password fields match
+        Validates that both password fields match.
         """
         if attrs['password'] != attrs['password_repeat']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
